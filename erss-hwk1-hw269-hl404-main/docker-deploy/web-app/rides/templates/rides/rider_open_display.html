@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body>
+{% block content %}
+    <header>
+        <div id="navigation" class="navbar navbar-inverse navbar-fixed-top default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+
+
+                </div>
+                <div class="navigation">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav>
+                            <ul class="nav navbar-nav navbar-right">
+                              <a style="color:fuchsia;font-size:40px;" class="navbar-brand" href="{% url 'rides:homepage' %}">HOME</a>
+                                <li><a href="{% url 'rides:all_my_info' user.id %}">Account Info</a></li>
+                                <li><a href="{% url 'rides:logout' %}">Log out</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="heading">
+                        <h3><span>Hi {{ user.username }}, welcomes!</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-md-8 col-md-offset-3">
+                <!-- Info for the rider part -->
+                {% if openrides|length > 0 %}
+                    <ul><h4>Here are your unconfirmed rides as main rider:</h4>
+                        {% for ride in openrides %}
+                            <li>
+                                <a href="{% url 'rides:edit_ride_as_rider' user.id ride.id %}">To {{ ride.destination }}
+                                    before {{ ride.arrival_date }}</a>
+
+                                    <p style = "color:red">You have {{ ride.group }} group(s) of sharer</p>
+
+                                <p>Delete this ride? <a href="{% url 'rides:cancel_a_ride' user.id ride.id %}">Yes</a></p>
+                                <br>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <h4 style="color:red">Oops, you don't have open ride orders!</h4>
+
+                {% endif %}
+
+
+
+
+                <br>
+                <br>
+                <br>
+                <a href="{% url 'rides:all_my_info' user.id %}">Go back to profile page</a>
+                <br>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+</body>
+</html>

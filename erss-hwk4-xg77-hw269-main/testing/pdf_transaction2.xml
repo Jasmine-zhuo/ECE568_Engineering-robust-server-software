@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transactions id="2">
+  <order sym="X" amount="-100" limit="130"/>
+  <order sym="X" amount="-500" limit="128"/>
+  <order sym="X" amount="-200" limit="140"/>
+  <order sym="X" amount="-400" limit="124"/>
+  <query id="7"/>
+  <cancel id="5"/>
+  <query id="4"/>
+</transactions>

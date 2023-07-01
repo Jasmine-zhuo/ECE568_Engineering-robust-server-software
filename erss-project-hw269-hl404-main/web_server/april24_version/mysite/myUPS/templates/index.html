@@ -1,0 +1,45 @@
+{% extends 'myUPS/homepage.html' %}
+{% block title %}UPS tracking{% endblock %}
+{% block track_active %}active{% endblock %}
+
+{% block body%}
+<div class="container-fluid" style="margin-top:160px; margin-right:0px; margin-left:500px">
+    <div>
+        <div class="col-sm-12 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 align="center">Enter your Tracking Number here!</h3>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <center><p{% if message.tags %} class="{{ message.tags }}" {% endif %} style="padding: 12px"><font style="color:red; font-size: 18px">{{ message }}</font></p></center>
+                    {% endfor %}
+                    {% endif %}
+                    <form class="form-horizontal" role="form" action="{% url 'track_pkg' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-6">
+                                <input id="package_number" maxlength="30" name="package_number" type="text">
+                            </div>
+                        </div>
+                      
+                        <div class="form-group">
+                            <div class="col-sm-offset-5 col-sm-0">
+                                <button type="submit" class="btn btn-info">Track</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% if user.is_authenticated == False %}
+                <div class="panel-footer">
+                  <a href="{% url 'login_user' %}">Log in</a > to access more infomation.
+                  <br>
+                  Don't have an account?<a href="{% url 'register' %}"> Click here</a> to register.
+                  
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

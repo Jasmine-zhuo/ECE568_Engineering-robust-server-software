@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body>
+{% block content %}
+    <header>
+        <div id="navigation" class="navbar navbar-inverse navbar-fixed-top default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'rides:homepage' %}">Home Page</a>
+                </div>
+                <div class="navigation">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav>
+                            <ul class="nav navbar-nav navbar-right">
+                                {% if user.is_authenticated %}
+                                    <li><a href="{% url 'rides:all_my_info' user.id %}">Back to profile</a></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2">
+                <h2>ACCOUNT INFORMATION</h2>
+                <ul>
+                    <li>Username: {{ user.username }}</li>
+                    <li>Email: {{ user.email }}</li>
+                </ul>
+
+                <h2>DRIVER INFORMATION</h2>
+                <div class="form-wrapper">
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="field-wrapper">
+                                {{ field.errors }}
+                                {{ field.label_tag }} {{ field }}
+                                {% if field.help_text %}
+                                    {{ field.help_text|safe }}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="button-wrapper submit"><input class="btn btn-lg btn-theme pull-left" type="submit"
+                                                                  value="Submit Change"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+</body>
+</html>

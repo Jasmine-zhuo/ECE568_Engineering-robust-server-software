@@ -1,0 +1,16 @@
+
+1.We should do error-checking on getaddrinfo(), and walk through the "host_info_list" linked list,looking for
+valid entries instead of just assuming the first one is good!
+
+2.We should check for any error after the call to "setsockopt"!!
+
+3.We didn't manage request methods other than GET/POST/CONNECT
+
+4.The failures we could handle were mainly errors in socket programming. We wraped the entire "handler" function with try<-->catch block that we learned in ECE551. On failure, the thrown exception will be catched and thus no futher stacks needs to be desctructed.
+
+5.The exception guarantee was STRONG. The reason is that, on failure, our cache might have been modified but no dangling pointers will be left.
+
+6.We didn't test very-large inputs and very-long time to figure out if our cache still behaves as expected.
+
+7.In connect method, we didn't use while loops to do the receiving. This seems fine in the tests, but could lead do disaster if a really huge input shows up.
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+{% block content %}
+    <header>
+        <h1> This is the homeage !!!!!!!</h1>
+        <div id="navigation" class="navbar navbar-inverse navbar-fixed-top default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+
+
+                </div>
+                <div class="navigation">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="current"><a href="{% url 'rides:homepage' %}">Home</a></li>
+                                <li><a href="{% url 'rides:register_as_user' %}">Register an account</a></li>
+                                <li><a href="{% url 'rides:login' %}">Login</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    </section>
+
+    <script>
+        $(document).ready(function () {
+            $('#slippry-slider').slippry(
+                defaults = {
+                    transition: 'vertical',
+                    useCSS: true,
+                    speed: 5000,
+                    pause: 3000,
+                    initSingle: false,
+                    auto: true,
+                    preload: 'visible',
+                    pager: false,
+                }
+            )
+        });
+    </script>
+
+{% endblock %}
+</body>
+</html>

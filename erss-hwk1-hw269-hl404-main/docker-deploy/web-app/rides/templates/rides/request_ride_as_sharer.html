@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+{% block content %}
+    <header>
+        <div id="navigation" class="navbar navbar-inverse navbar-fixed-top default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+
+           <a style="color:fuchsia;font-size:40px;" class="navbar-brand" href="{% url 'rides:homepage' %}">HOME</a>
+  <br>
+                </div>
+                <div class="navigation">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{% url 'rides:all_my_info' user.id %}">Back</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="heading">
+                        <h2><span>Please fill the information about your ride</span></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-md-8 col-md-offset-3">
+                <div class="form-wrapper">
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="field-wrapper">
+                                {{ field.errors }}
+                                {{ field.label_tag }} {{ field }}
+                                {% if field.help_text %}
+                                    {{ field.help_text|safe }}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="button-wrapper submit"><input class="btn btn-lg btn-theme pull-left" type="submit" value="Find a share ride!"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+</body>
+</html>

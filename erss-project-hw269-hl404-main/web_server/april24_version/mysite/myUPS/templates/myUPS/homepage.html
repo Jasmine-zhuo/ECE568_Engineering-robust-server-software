@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mini-UPS{% endblock %}</title>
+
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'myUPS/image/ups_logo.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Aria' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!-- link rel="stylesheet" type="text/css" href="{% static 'myUPS/table.css' %}" -->
+    <link rel="stylesheet" type="text/css" href="{% static 'myUPS/style.css' %}"/>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+        
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'index'%}" style="font-size: 35px">Mini-UPS</a >
+        </div>
+        
+        <div class="collapse navbar-collapse" id="topNavBar">
+        
+            <ul class="nav navbar-nav navbar-right">
+s                {% if user.is_authenticated == False %}
+                <li>
+                    <a href="{% url 'login_user'%}">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true" style="color:yellow"></span>&nbsp;<font style="color:yellow"> Log In</font>
+                    </a >
+                </li>
+                {% else %}
+                <li>
+                    <a href="{% url 'all_pkg' user.id%}">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true" style="color:yellow"></span>&nbsp;<font style="color:yellow"> User ID: {{ user.id }} Username: {{ user.username }}</font>
+                    </a >
+                </li>
+                <li>
+                    <a href="{% url 'edit_email'%}">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true" style="color:yellow"></span>&nbsp;<font style="color:yellow"> Edit Email</font>
+                    </a >
+                </li>
+                <li>
+                    <a href="{% url 'logout_user'%}">
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true" style="color:yellow"></span>&nbsp;<font style="color:yellow"> Log Out</font>
+                    </a >
+                </li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="{% block track_order %}{% endblock %}">
+                <a href="{% url 'index'%}"><span class="glyphicon glyphicon-search" aria-hidden="true" style="color:yellow"></span>&nbsp;<font style="color:yellow"> Track Package</font> 
+                </a > 
+              </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+
+<footer id="mu-footer" style = "width: 100%; height:60px; position:absolute; bottom:0px; left:0px; background:#345;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="mu-footer-area">   
+                      <div class="mu-footer-social">
+                            <center>
+                             <a href="https://www.youtube.com/"><span class="fa fa-youtube"></span></a>
+                             <a href="https://www.facebook.com/"><span class="fa fa-facebook"></span></a>
+                             <a href="https://twitter.com/"><span class="fa fa-twitter"></span></a>
+                             <a href="https://www.instagram.com/"><span class="fa fa-instagram"></span></a>
+                             <a href="https://www.linkedin.com/"><span class="fa fa-linkedin"></span></a>
+                             <a href="https://www.weibo.com/"><span class="fa fa-weibo"></span></a>
+                            </center>
+                            
+                      </div>
+                      <div class="mu-footer-copyright">
+                        <p><center><a href="{% url 'index' %}" title="Mini-UPS" target="_self"><font color="white">Mini-UPS_version_1.0.0</font></a><font color="pink"> by Hao Wu & Hongyang Li</font></center></p>
+            
+                      </div>         
+        </div>
+        </div>
+        </div>
+    </div>
+</footer>
+
+
+{% block body %}
+{% endblock %}
+</body>
+</html>

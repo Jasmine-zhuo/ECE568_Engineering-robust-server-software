@@ -1,0 +1,180 @@
+{% extends 'myUPS/homepage.html' %}
+
+{% load static %}
+
+{% block title %}Package Details{% endblock %}
+
+{% block body %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'myUPS/table.css' %}">
+    <h1 align = "center">Your Package Details</h1>
+
+    {% if pkgs %}
+    <!--h1 align = "center">Your Package Details</h1-->
+    <br>
+    {% if track_flag %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <center><p{% if message.tags %} class="{{ message.tags }}" {% endif %} style="padding:10px; color:red; font-size:25px">{{ message }}</p></center>
+        {% endfor %}
+    {% endif %}
+
+    <form action="{% for pkg in pkgs %}{% url 'track_edit_dest' pkg.package_id %}{% endfor %}">
+    <!--link rel="stylesheet" type="text/css" href="{% static 'myUPS/table.css' %}"-->
+    <table border="3" width="1300px" height="80px" cellpadding="20px" cellspacing="100px" align = "center" style = "background-color:aliceblue">
+        
+        <thead>
+        <tr>
+            <th><center><font size="2" color="white">tracking number</font></center></th>
+            <th><center><font size="2" color="white">warehouse id</font></center></th>
+            <th><center><font size="2" color="white">warehose location</font></center></th>
+            <th><center><font size="2" color="white">destination location</font></center></th>
+            <th><center><font size="2" color="white">current_status</font></center></th>
+            <th><center><font size="2" color="white">pick up time</font></center></th>
+            <th><center><font size="2" color="white">loaded time</font></center></th>
+            <th><center><font size="2" color="white">delivered time</font></center></th>
+            <th><center><font size="2" color="white">user</font></center></th>
+            <th><center><font size="2" color="white">change destination</font></center></th>
+        </tr>
+        </thead>
+        <tbody>
+          {% for pkg in pkgs %}
+            <tr>
+                <th><center>{{ pkg.package_id }}</center></th>
+                <th><center>{{ pkg.wh_id }}</center></th>
+                <th><center>{{ pkg.wh_addr_x}} , {{pkg.wh_addr_y }}</center></th>
+                <th><center>{{ pkg.dest_x }} , {{pkg.dest_y }}</center></th>
+                <th><center>{{ pkg.get_cur_status_display }}</center></th>
+                <th><center>{{ pkg.ready_for_pickup_time }}</center></th>
+                <th><center>{{ pkg.load_time }}</center></th>
+                <th><center>{{ pkg.delivered_time }}</center></th>
+                <th><center>{{ pkg.user.user.username }}</center></th>
+                <th>
+                    <center>
+                <label>
+                        <input type="radio" name="package_id" value="{{ pkg.package_id }}">
+                     </label>
+                    </center>
+                     </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <center>
+        <button  class="btn btn-info" value="{{pkg.package_id}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp; Change Destination</button>
+    </center>
+    </form>
+    <br>
+    <h3 style="text-align:right"><font style="color:White">Want to track another package?</font><a href="{% url 'index' %}" style="color:white"> Click here!</a>&nbsp&nbsp&nbsp</h3>
+
+    {% else %} <!-- Not track, Query for all packages -->
+
+    {% if user.is_authenticated  %}
+    <a href="{% url 'loading'%}">
+    <button  class="btn btn-info" name = "pickup" value="pickup"><span class="glyphicon glyphicon-briefcase"></span>&nbsp; wait for pickup</button>
+    </a>
+    <a href="{% url 'out'%}">
+    <button  class="btn btn-info" name = "loaded" value="loaded"><span class="glyphicon glyphicon-briefcase"></span>&nbsp; out for delivery</button>
+    </a>
+    <a href="{% url 'arrive'%}">
+    <button  class="btn btn-info" name = "out" value="out"><span class="glyphicon glyphicon-briefcase"></span>&nbsp; arrived</button>
+    </a>
+    {% endif %}
+    
+    {% if messages %}
+        {% for message in messages %}
+            <center><p{% if message.tags %} class="{{ message.tags }}" {% endif %} style="padding:12px"><font style="color:red; font-size:25px">{{ message }}</font></p></center>
+        {% endfor %}
+    {% endif %}
+            
+    <form action="{% url 'edit_dest' %}">
+    <!--link rel="stylesheet" type="text/css" href="{% static 'myUPS/table.css' %}"-->
+    <table border="3" width="1300px" height="80px" cellpadding="20px" cellspacing="100px" align = "center" style = "background-color: aliceblue">
+        
+        <thead>
+        <tr>
+            <th><center><font size="3" color="white">tracking number</font></center></th>
+            <th><center><font size="3" color="white">warehouse id</font></center></th>
+            <th><center><font size="3" color="white">warehose location</font></center></th>
+            <th><center><font size="3" color="white">destination location</font></center></th>
+            <th><center><font size="3" color="white">current_status</font></center></th>
+            <th><center><font size="3" color="white">pick up time</font></center></th>
+            <th><center><font size="3" color="white">loaded time</font></center></th>
+            <th><center><font size="3" color="white">delivered time</font></center></th>
+            <th><center><font size="3" color="white">user</font></center></th>
+            <th><center><font size="3" color="white">change destination</font></center></th>
+        </tr>
+        </thead>
+        
+        <tbody>
+          {% for pkg in pkgs %}
+            <tr>
+                <th><center>{{ pkg.package_id }}</center></th>
+                <th><center>{{ pkg.wh_id }}</center></th>
+                <th><center>{{ pkg.wh_addr_x}} , {{pkg.wh_addr_y }}</center></th>
+                <th><center>{{ pkg.dest_x }} , {{pkg.dest_y }}</center></th>
+                <th><center>{{ pkg.get_cur_status_display }}</center></th>
+                <th><center>{{ pkg.ready_for_pickup_time }}</center></th>
+                <th><center>{{ pkg.load_time }}</center></th>
+                <th><center>{{ pkg.delivered_time }}</center></th>
+                <th><center>{{ pkg.user.user.username }}</center></th>
+                <th>
+                    <center>
+                      <label>
+                        <input type="radio" name="package_id" value="{{ pkg.package_id }}">
+                      </label>
+                    </center>
+                </th>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+    <center><br></center>
+
+    <center>
+        <button  class="btn btn-info" value="{{pkg.package_id}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp; Change Destination</button>
+    </center>
+
+    </form>
+    {% endif %}
+
+    
+    {% else %}
+
+    {% if track_flag%}
+
+    <br>
+    <br>
+    <br>
+    <center><h2><font style="color:red">No Package Founded! Pleass enter a valid</font><a href="{% url 'index' %}"> Tracking Number</a><font style="color:red">.</font></h2></center>
+
+    
+    {% else %} <!-- User has no packages -->
+    
+    {% if user.is_authenticated %}
+    <a href="{% url 'loading' %}">
+    <button  class="btn btn-info" name = "pickup" value="pickup"><span class="glyphicon glyphicon-briefcase"></span>&nbsp; wait for pickup</button>
+    </a>
+    <a href="{% url 'out' %}">
+    <button  class="btn btn-info" name = "loaded" value="loaded"><span class="glyphicon glyphicon-briefcase"></span>&nbsp; out for delivery</button>
+    </a>
+    <a href="{% url 'arrive' %}">
+    <button  class="btn btn-info" name = "out" value="out"><span class="glyphicon glyphicon-briefcase"></span>&nbsp; arrived</button>
+    </a>
+
+    <br>
+    <br>
+    <br>
+    <center><h2><font style="color:red">You Have No Package Currenly! </font></h2></center>
+    {% endif %}
+
+    {% endif %}
+
+
+    
+    {% endif %}
+    
+
+{% endblock %}

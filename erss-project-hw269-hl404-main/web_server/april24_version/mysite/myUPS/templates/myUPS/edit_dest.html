@@ -1,0 +1,49 @@
+{% extends 'myUPS/homepage.html' %}
+{% block title %}Edit Destination{% endblock %}
+{% block edit_destination %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid" style= "margin-top:150px; margin-right:0px; margin-left:500px; background-color:aliceblue; width: 500px">
+
+                <div class="panel-body col-sm-12">
+                    <h2 align="center">Change Package Destination</h1>
+
+                    {%if pkg%}
+                    <h3>Tracking Number: {{pkg.package_id}}</h3>
+
+                    {%endif%}
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p >
+                    {% endif %}
+
+                        <form class="form-horizontal" role="form" action="{% url 'save_dest' %}" method="post" enctype="multipart/form-data">
+                          {% csrf_token %}
+                           <div class="form-group">
+                            <label class="control-label col-sm-3" for="dest_x">
+                                destination_x
+                            </label>
+                            <div class="col-sm-offset-4" >
+                                <input id="destination_x" maxlength="30" minlength="1" name="destination_x" type="text">
+                            </div>
+                           </div>
+
+                           <div class="form-group">
+                            <label class="control-label col-sm-3" for="desx_y">
+                                destination_y
+                            </label>
+                            <div class="col-sm-offset-4">
+                                <input id="destination_y" maxlength="30" minlength="1" name="destination_y" type="test">
+                            </div>
+                           </div>
+
+                           <div class="form-group">
+                            <div class="col-sm-offset-5 col-sm-0">
+                                <button type="submit" name="package_id" value="{{ pkg.package_id }}" class="btn btn-info">Confirm</button>
+                            </div>
+                           </div>
+                        </form>
+                </div>
+</div>
+
+{% endblock %}

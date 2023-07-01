@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  stock_db:
+    image: postgres
+    restart: always
+    environment:
+        - POSTGRES_DB=stock
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=passw0rd
+    volumes:
+      - data-volume:/var/lib/postgresql/data
+
+  server:
+    build: ./matching-server
+    command: /code/runserver.sh
+    volumes:
+        - ./matching-server:/code
+    ports:
+      - "12345:12345"
+    depends_on:
+      - stock_db
+      
+volumes:
+   data-volume: 

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+{% block content %}
+    <header>
+        <div id="navigation" class="navbar navbar-inverse navbar-fixed-top default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'rides:homepage' %}">Ride Share</a>
+                </div>
+                <div class="navigation">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{% url 'rides:all_my_info' user.id %}">Back</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="heading">
+                        <h3><span>Hi {{ user.username }}, welcomes!</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-md-8 col-md-offset-4">
+                {% if sharerides|length > 0 %}
+                    <ul>Here are sharable rides you can join:
+                        {% for ride in sharerides %}
+                            <li>
+                                <p>To {{ ride.destination }} before {{ ride.arrival_date }}</p>
+                                <a href="{% url 'rides:join_ride_as_sharer' user.id ride.id passenger %}">join this ride</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No rides available for you to share now</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+</body>
+</html>

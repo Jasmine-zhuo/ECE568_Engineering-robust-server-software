@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body>
+{% block content %}
+    <header>
+        <div id="navigation" class="navbar navbar-inverse navbar-fixed-top default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+
+                    <a style="color:fuchsia;font-size:40px;" class="navbar-brand" href="{% url 'rides:homepage' %}">HOME</a>
+  <br>
+                </div>
+                <div class="navigation">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{% url 'rides:all_my_info' user.id %}">Back</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="heading">
+                        <h3><span>Hi {{ user.username }}, welcomes!</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-md-8 col-md-offset-4">
+
+                <ul>Here are rides available for you to choose:
+                    {% for ride in pickable_rides %}
+                        <li>
+                            <p>To {{ ride.destination }} before {{ ride.arrival_date }}</p>
+                            <p>Passenger number: {{ ride.total_passenger_num }}</p>
+                            <a href="{% url 'rides:confirm_a_drive' user.id ride.id %}">Go for this one!</a>
+                        </li>
+                        <br>
+                    {% endfor %}
+                </ul>
+                <br>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+</body>
+</html>

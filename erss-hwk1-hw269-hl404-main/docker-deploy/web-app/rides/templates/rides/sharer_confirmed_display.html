@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body>
+{% block content %}
+    <header>
+        <div id="navigation" class="navbar navbar-inverse navbar-fixed-top default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+  <a style="color:fuchsia;font-size:40px;" class="navbar-brand" href="{% url 'rides:homepage' %}">HOME</a>
+                    <br>
+                </div>
+                <div class="navigation">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav>
+                            <ul class="nav navbar-nav navbar-right">
+                                {% if not user_profile.is_driver %}
+                                    <li><a href="{% url 'rides:register_as_driver' user.id %}">Register for driver</a>
+                                    </li>
+                                {% endif %}
+                                <li><a href="{% url 'rides:all_my_info' user.id %}">Account Info</a></li>
+                                <li><a href="{% url 'rides:logout' %}">Log out</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="heading">
+                        <h3><span>Hi {{ user.username }}, welcomes!</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-md-8 col-md-offset-3">
+
+
+                {% if confirmedshares|length > 0 %}
+                <h2>Kind Notice: You cannot change these orders because it is already confirmed!</h2>
+                    <ul><h4>Here are your confirmed rides as sharer:</h4>
+                        {% for ride in confirmedshares %}
+                            <li>
+                                <p>Driver Name: {{ ride.driver_name }}</p>
+                                <p>Vehicle Type: {{ ride.vehicle_info }}</p>
+                                <p>Plate Number: {{ ride.vehicle_plate }}</p>
+                                <p>To {{ ride.destination }} before {{ ride.arrivaldate }}</p>
+                                <p>You are sharing this ride with main rider: {{ ride.rider_name }}</p>
+                                <br>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <br>
+
+
+                  <a href="{% url 'rides:all_my_info' user.id %}">Go back to profile page</a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+</body>
+</html>

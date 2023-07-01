@@ -1,0 +1,35 @@
+{% extends 'myUPS/homepage.html' %}
+{% block title %}Edit Email{% endblock %}
+{% block email_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <div style= "margin-top:140px; margin-right:0px; margin-left:500px;">
+        <div class="col-sm-12 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 align="center">Edit your email address here!</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p >
+                    {% endif %}
+
+                        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                          {% csrf_token %}
+                          {% include 'myUPS/form_template.html' %}
+                          <div class="form-group">                                  
+                            <div class="col-sm-offset-5 col-sm-0">
+                                <button type="submit" class="btn btn-info">Comfirm</button>
+                            </div>
+                          </div>
+                        </form>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

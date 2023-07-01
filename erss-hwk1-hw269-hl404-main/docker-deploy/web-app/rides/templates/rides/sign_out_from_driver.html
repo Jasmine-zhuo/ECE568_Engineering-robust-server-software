@@ -1,0 +1,11 @@
+
+
+
+{% if can_delete %}
+ <p> You have successfully signed out as driver!</p>
+
+ {% else %}
+  <p> Sorry, you have orders, so you cannot signout now!</p>
+  {% endif %}
+
+   <a style="color:darkorange;font-size:30px;" href="{% url 'rides:all_my_info' user.id %}">Join Other's ride As a sharer now!! </a>

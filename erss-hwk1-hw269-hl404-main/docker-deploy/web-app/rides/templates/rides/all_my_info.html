@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+                    <a style="color:fuchsia;font-size:40px;" class="navbar-brand" href="{% url 'rides:homepage' %}">HOME</a>
+    <li><a href="{% url 'rides:logout' %}">Log out</a></li>
+
+       <h2 style="color:blue">1：My Order Details</h2>
+                                {% if user.is_authenticated %}
+                                    <li><a href="{% url 'rides:rider_open_display' user.id %}">Click HERE :Your [OPEN] orders where you are the [OWNER]! </a></li>
+                                    <br>
+                                    <li><a href="{% url 'rides:rider_confirmed_display' user.id %}">Click HERE :Your [CONFIRMED] orders where you are the [OWNER]! </a></li>
+                                    <br>
+                                    <li><a href="{% url 'rides:sharer_open_display' user.id %}">Click HERE :Your [OPEN] orders where you are the [SHARER]! </a></li>
+                                    <br>
+                                    <li><a href="{% url 'rides:sharer_confirmed_display' user.id %}">Click HERE :Your [CONFIRMED] orders where you are the [SHARER]! </a></li>
+                                    <br>
+                                    <li><a href="{% url 'rides:driver_confirmed_display' user.id %}">Click HERE :Your [CONFIRMED] orders where you are the [DRIVER]! </a></li>
+                                    <br>
+
+
+                                {% endif %}
+
+
+
+                <h2 style="color:blue">2: ACCOUNT INFORMATION</h2>
+                <ul>
+                    <li>Username: {{ user.username }}</li>
+                    <li>Email: {{ user.email }}</li>
+                </ul>
+
+                <h2 style="color:blue">3: MY Driver PROFILE</h2>
+                    {% if user_info.is_driver %}
+                <h2 style="color:red"> You are a registered driver!</h2>
+                        <p>Here's your vehicle info:</p>
+                        <li>Vehicle Type: {{ user_info.vehicle_type }}</li>
+                        <li>Plate Number: {{ user_info.plate_num }}</li>
+                        <li>Passenger Capacity: {{ user_info.max_passengers }}</li>
+                        {% if user_info.special_vehicle_info %}
+                            <li>Special Info: {{ user_info.special_vehicle_info }}</li>
+                        {% endif %}
+
+                    {% else %}
+                        <p>You are not a driver yet.</p>
+                    {% endif %}
+                   <br>
+                    {% if user.is_authenticated %}
+                        {% if not user_info.is_driver %}
+                            <a href="{% url 'rides:register_as_driver' user.id %}">Register Now to be A driver!</a>
+                        {% else %}
+                            <a href="{% url 'rides:edit_my_driver_info' user.id %}">Edit Your Driver info</a>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+
+
+
+<br><br><br>
+<h2 style="color:blue">4：Explore more Rides!</h2>
+                    <a style="color:darkorange;font-size:30px;" href="{% url 'rides:request_ride_as_rider' user.id %}">Start a new ride as an OWNER now!!</a>
+                <br><br><br>
+
+                <a style="color:darkorange;font-size:30px;" href="{% url 'rides:request_ride_as_sharer' user.id %}">Join Other's ride As a sharer now!! </a><br><br><br>
+                {% if user_info.is_driver %}
+               <p style="color:red;font_size:25px;"> [DRIVER ONLY]</p>
+               <a style="color:darkorange;font-size:30px;"href="{% url 'rides:FindRideForDriver' user.id %}">[driver only]Find orders and make money!</a>
+                {% endif %}
+
+
+
+
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body>
+{% block content %}
+    <header>
+        <div id="navigation" class="navbar navbar-inverse navbar-fixed-top default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'rides:homepage' %}">HOME</a>
+                </div>
+                <div class="navigation">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav>
+                            <ul class="nav navbar-nav navbar-right">
+
+                                <li><a href="{% url 'rides:all_my_info' user.id %}">Account Info</a></li>
+                                <li><a href="{% url 'rides:logout' %}">Log out</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="heading">
+                        <h3><span>Hi {{ user.username }}, welcomes!</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-md-8 col-md-offset-3">
+                {% if user_profile.is_driver %}
+                    {% if has_drive %}
+                        <ul><h4>And here's your drive info as a driver:</h4>
+                            <p>Your drive to {{ drive.destination }}  before {{ drive.arrival_date }} is going on!<a
+                                    href="{% url 'rides:complete_a_ride' user.id drive.id %}">complete</a>
+                            </p>
+                            <p>More Information:</p>
+                            <p>Main Rider Name: {{ owner }}</p>
+                            {% if sharers|length > 0 %}
+                                <ul>
+                                    {% for share in sharers %}
+                                        <li>
+                                            <p>Sharer's Name: {{ share.name }}</p>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>This is ride has no sharer yet.</p>
+                            {% endif %}
+                        </ul>
+                    {% else %}
+                    <ul><h4 style="color:green">Sorry, you have no order as a driver!</h4>
+                     <ul><h5 style="color:red">Search for orders Now?</h5>
+                     <a href="{% url 'rides:FindRideForDriver' user.id %}">Find a new ride as driver!</a>
+                    {% endif %}
+                {% else %}
+                    <ul><h4 style="color:green">Sorry, you are not a DRIVER!</h4>
+                    <ul><h5 style="color:red">Register to become a driver Now?</h5>
+
+        <li><a href="{% url 'rides:register_as_driver' user.id %}">Register for driver</a>
+                {% endif %}
+
+
+                <br>
+                <a href="{% url 'rides:all_my_info' user.id %}">Go back to profile page</a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+</body>
+</html>

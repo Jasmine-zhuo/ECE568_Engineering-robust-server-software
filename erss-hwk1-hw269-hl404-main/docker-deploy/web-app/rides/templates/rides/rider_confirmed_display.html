@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body>
+{% block content %}
+    <header>
+        <div id="navigation" class="navbar navbar-inverse navbar-fixed-top default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+  <a style="color:fuchsia;font-size:40px;" class="navbar-brand" href="{% url 'rides:homepage' %}">HOME</a>
+                    <br>
+                </div>
+                <div class="navigation">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{% url 'rides:all_my_info' user.id %}">Account Info</a></li>
+                                <li><a href="{% url 'rides:logout' %}">Log out</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="heading">
+                        <h3><span>Hi {{ user.username }}, welcomes!</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-md-8 col-md-offset-3">
+
+
+                {% if cfm_info_rider|length > 0 %}
+                    <ul><h4>Here are your confirmed rides as main rider:</h4>
+                        {% for ride in cfm_info_rider %}
+                            <li>
+                                <p>Driver Name: {{ ride.driver_name }}</p>
+                                <p>Vehicle Type: {{ ride.vehicle_info }}</p>
+                                <p>Plate Number: {{ ride.vehicle_plate }}</p>
+                                <p>To :{{ ride.destination }} </p>
+                                {% if ride.sharers|length > 0 %}
+                                    <p>You have {{ ride.group }} group(s) of sharer</p>
+                                    {% for s in ride.sharers %}
+                                        <p>Sharer Name: {{ s.name }}</p>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>This ride has no share riders.</p>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <br>
+                <br>
+             <a href="{% url 'rides:all_my_info' user.id %}">Go back to profile page</a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+</body>
+</html>

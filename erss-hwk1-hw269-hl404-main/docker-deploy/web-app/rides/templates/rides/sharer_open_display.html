@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body>
+{% block content %}
+    <header>
+        <div id="navigation" class="navbar navbar-inverse navbar-fixed-top default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+   <a style="color:fuchsia;font-size:40px;" class="navbar-brand" href="{% url 'rides:homepage' %}">HOME</a>
+                    <br>
+                </div>
+                <div class="navigation">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <nav>
+                            <ul class="nav navbar-nav navbar-right">
+
+                                <li><a href="{% url 'rides:all_my_info' user.id %}">Account Info</a></li>
+                                <li><a href="{% url 'rides:logout' %}">Log out</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="heading">
+                        <h3><span>Hi {{ user.username }}, welcomes!</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-md-8 col-md-offset-3">
+                <!-- Info for the sharer part -->
+                {% if openshares|length > 0 %}
+                    <ul><h4>Here are your unconfirmed rides as sharer:</h4>
+                        {% for ride in openshares %}
+                            <li>
+                                <a href="{% url 'rides:edit_ride_as_sharer' user.id ride.id %}">To {{ ride.destination }}
+                                    before {{ ride.arrivaldate }}</a>
+                                <p>Do you want to exit this ride? <a
+                                        href="{% url 'rides:delete_ride_as_sharer' user.id ride.id %}">Yes</a>
+                                </p>
+                                <br>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+
+                <br>
+             <a href="{% url 'rides:all_my_info' user.id %}">Go back to profile page</a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+</body>
+</html>
